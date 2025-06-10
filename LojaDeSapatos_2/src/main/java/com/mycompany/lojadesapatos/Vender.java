@@ -1,46 +1,69 @@
 package com.mycompany.lojadesapatos;
 
-// Importa a classe ConversorNumeros de outro pacote
-import com.mycompany.lojadesapatos.ConversorNumeros;
-
-
-import com.mycompany.lojadesapatos.Sapatos;
-
-
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 public class Vender {
-    
-    // Atributo que armazena o valor total da venda
+
     private double valorTotal;
-    // Porcentagem de desconto aplicada na venda (10%)
     private double percentualDesconto = 0.1;
-    // Método responsável por realizar a venda de um sapato
+
+    // Atributos estáticos para controle geral
+    private static int totalVendas = 0;
+    private static int totalParesVendidos = 0;
+    private static double faturamentoTotal = 0;
+    private static ArrayList<String> resumoVendas = new ArrayList<>();
+
     public void venderSapato(Sapatos sapato) {
-        
-        // Solicita ao usuário a quantidade que deseja vender 
         String entrada = JOptionPane.showInputDialog(null, "Quantidade a vender:");
-        
-        // Converte a entrada de texto para um número inteiro
+        if (entrada == null) return;
+
         int quantidade = ConversorNumeros.stringparaInt(entrada);
 
-        // Verifica se há estoque suficiente para a quantidade desejada
-        if ((quantidade <= Estoque.qtdEstoque) == true) {
-            
-            // Calcula o valor total da venda sem desconto
+        if (quantidade <= Estoque.qtdEstoque) {
             valorTotal = sapato.getPreco() * quantidade;
+            double desconto = valorTotal * percentualDesconto;
+            valorTotal -= desconto;
 
-            // Aplica o desconto de 10%
-            valorTotal = valorTotal - (valorTotal * percentualDesconto);
+            JOptionPane.showMessageDialog(null, "Venda realizada!\nValor total com desconto: R$ " + String.format("%.2f", valorTotal));
 
-            // Exibe o valor final da venda com desconto
-            JOptionPane.showMessageDialog(null, "Venda realizada!\nValor total com desconto: R$ " + valorTotal);
-            
-            //Atualiza a quantia no Estoque
+            // Atualiza o estoque
             Estoque.qtdEstoque -= quantidade;
-        
+
+            // Atualiza o controle de vendas
+            totalVendas++;
+            totalParesVendidos += quantidade;
+            faturamentoTotal += valorTotal;
+
+            // Salva resumo
+            resumoVendas.add("Venda #" + totalVendas + ": " + quantidade + " par(es) - R$ " + String.format("%.2f", valorTotal));
         } else {
-            // Caso não haja estoque suficiente, exibe mensagem de erro
-            JOptionPane.showMessageDialog(null, "Estoque insuficiente.");         }
+            JOptionPane.showMessageDialog(null, "Estoque insuficiente.");
+        }
     }
-}
+
+    // Getters para o relatório
+    public static int getTotalVendas() {
+        return totalVendas;
+    }
+
+    public static int getTotalParesVendidos() {
+        return totalParesVendidos;
+    }
+
+    public static double getFaturamentoTotal() {
+        return faturamentoTotal;
+    }
+
+    public static String getResumoVendas() {
+        if (resumoVendas.isEmpty()) {
+            return "Nenhuma venda registrada.";
+        }
+
+        StringBuilder resumo = new StringBuilder();
+        for (String linha : resumoVendas) {
+            resumo.append(linha).append("\n");
+        }
+        return resumo.toString();
+    }
+            }
