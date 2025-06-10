@@ -215,19 +215,27 @@ public class MenuSapatos extends JFrame {
 
         } else if (origem == bRelatorioVendas) {
             // Placeholder para relatório (ainda não implementado)
-            io.saidaDados("Relatório de Vendas (Simulado):\n\n" +
-                           "- Esta funcionalidade exibiria um resumo das vendas.\n" +
-                           "- Para um relatório real, a classe 'Vender' precisaria armazenar\n" +
-                           "  um histórico de transações.\n\n" +
-                           "(Funcionalidade em desenvolvimento)");
+        io.saidaDados("Relatório de Vendas\n\n" +
+              "- Total de Vendas Realizadas: " + Vender.getTotalVendas() + "\n" +
+              "- Total de Pares Vendidos: " + Vender.getTotalParesVendidos() + "\n" +
+              "- Faturamento Total: R$ " + String.format("%.2f", Vender.getFaturamentoTotal()) + "\n\n" +
+              "Histórico de Transações:\n" +
+              Vender.getResumoVendas());
 
         } else if (origem == bSobre) {
             // Informações sobre o sistema
-            io.saidaDados("Sistema de Loja de Sapatos Pro\n" +
-                           "Versão: 2.0 (Menu Melhorado)\n" +
-                           "Desenvolvido por: Vinícius Correia, Victor Hugo e Lucas Lewer\n\n" +
-                           "Este sistema permite o cadastro de sapatos, \n" +
-                           "gerenciamento de estoque e registro de vendas.");
+        io.saidaDados("Sistema de Gestão - Loja de Sapatos Pro\n" +
+              "Versão: 2.0\n" +
+              "Autores: Vinícius Correia, Victor Hugo e Lucas Lewer\n\n" +
+              "Funcionalidades Principais:\n" +
+              "• Cadastro e consulta de sapatos\n" +
+              "• Controle de estoque\n" +
+              "• Registro e relatório de vendas\n" +
+              "• Interface gráfica amigável com Java Swing\n\n" +
+              "Tecnologias Utilizadas:\n" +
+              "• Java SE\n" +
+              "• Swing para GUI\n\n" +
+              "© 2025 - Todos os direitos reservados.");
 
         } else if (origem == bSair) {
             // Saída do sistema
